@@ -30,8 +30,8 @@ package org.bigbluebutton.main.model
 		public function BigBlueButtonPreloader()
 		{
 			super();
-			downloadingLabel = "Downloading BigBlueButton main...";
-			initializingLabel = "BigBlueButton starting...";
+			downloadingLabel = "Descarando Remote Pharma Rep...";
+			initializingLabel = "Iniciando Remote Pharma Rep...";
 			MINIMUM_DISPLAY_TIME = 0;
 		}
 		

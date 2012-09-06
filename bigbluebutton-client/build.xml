@@ -260,7 +260,7 @@
 				  		ralam - sept 20, 2011
 					-->
 					<resource-bundle-list>bundles.txt</resource-bundle-list>
-	        			<static-link-runtime-shared-libraries>${STATIC_RSL}</static-link-runtime-shared-libraries>
+        			<static-link-runtime-shared-libraries>${STATIC_RSL}</static-link-runtime-shared-libraries>
 				
 					<compiler.library-path dir="@{flex}/frameworks" append="true">
 						<include name="libs" />
@@ -456,4 +456,7 @@
 	<target name="cleanandmake" depends="clean-build-all" description="Build BBB client including locales"/>
 
 	<target name="build-custom" depends="init-ant-contrib, build-classroom-audio" description="Build a custom defined module only, to save time as each build takes several minutes" />
+	
+	<target name="my" depends="clean, init-ant-contrib, generate-html-wrapper, build-bbb-main, build-chat, build-viewers, build-listeners, build-present, copy-resource-files" 
+				description="Build BBB client skipping compiling of locales"/>
 </project>

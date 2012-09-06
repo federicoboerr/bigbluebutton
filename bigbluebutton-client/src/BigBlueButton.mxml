@@ -199,7 +199,7 @@
 				return "true";
 			}			
 
-			protected function init():void {	
+			protected function init():void {
 				EventBroadcaster.getInstance().addEventListener("configLoadedEvent", configLoadedEventHandler);
 				BBB.initConfigManager();
 			}
