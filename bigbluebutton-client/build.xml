@@ -459,6 +459,8 @@
 
 	<target name="build-custom" depends="init-ant-contrib, build-classroom-audio" description="Build a custom defined module only, to save time as each build takes several minutes" />
 	
-	<target name="my" depends="clean, init-ant-contrib, generate-html-wrapper, compile-deskshare-standalone, build-bbb-main, build-bbb-main-test, build-chat, build-viewers, build-listeners, build-present, build-deskshare, build-phone, build-video, build-videodock, build-whiteboard, build-classroom-audio, build-settings, copy-resource-files" 
-				description="Build BBB client skipping compiling of locales"/>
+	<target name="my" depends="clean, init-ant-contrib, generate-html-wrapper, compile-deskshare-standalone, build-bbb-main, build-bbb-main-test, build-chat, build-viewers, build-listeners, build-present, build-deskshare, build-phone, build-video, build-videodock, build-whiteboard, build-classroom-audio, build-settings, copy-resource-files" description="My own build"/>
+	
+	<target name="main" depends="init-ant-contrib, generate-html-wrapper, build-bbb-main, copy-resource-files" description="Only build main."/>
+	
 </project>
