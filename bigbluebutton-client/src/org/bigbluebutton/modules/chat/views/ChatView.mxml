@@ -22,10 +22,11 @@
 
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
 		 xmlns:mate="http://mate.asfusion.com/"
-		 creationComplete="onCreationComplete()"
 		 xmlns:flexlib="http://code.google.com/p/flexlib/"
-		 width="100%" height="100%" xmlns:containers="flexlib.containers.*"
+		 xmlns:containers="flexlib.containers.*"
 		 implements="org.bigbluebutton.common.IUserListener"
+		 creationComplete="onCreationComplete()"
+		 width="100%" height="100%" 
 		 verticalScrollPolicy="off">
 	
 	<mate:Listener type="{PrivateChatMessageEvent.PRIVATE_CHAT_MESSAGE_EVENT}" method="handlePrivateChatMessageEvent"/>
@@ -108,7 +109,7 @@
 			private function onCreationComplete():void{
 				addParticipantToList(PUBLIC_CHAT_USERID, PUBLIC_CHAT_USERNAME, "public");
 				openChatBoxFor(PUBLIC_CHAT_USERID);
-				createAddTabBox();
+				/*createAddTabBox();*/
 				makePublicChatUncloseable();
 				addEventListener(SuperTabEvent.TAB_CLOSE, onUserClosedTab);
 				systemManager.stage.addEventListener(Event.MOUSE_LEAVE, mouseLeave);
