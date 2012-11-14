@@ -36,6 +36,7 @@
 			import org.bigbluebutton.core.EventBroadcaster;
 			import org.bigbluebutton.core.managers.ConfigManager2;			
 			import org.bigbluebutton.common.LogUtil;
+			import org.bigbluebutton.common.GATracker;
 			import org.bigbluebutton.core.BBB;
 			import org.bigbluebutton.main.events.BBBEvent;
 			import org.bigbluebutton.main.views.MainApplicationShell;
@@ -92,13 +93,13 @@
 			public  function handleLoginEvent(event:BBBEvent):void {
 				LogUtil.debug("******************* Received loggedin event");
 				isLoggedIn = true;
+				GATracker.addEvent("Conference", "Enter", "Room");
 				LogUtil.debug("******************* Received loggedin event " + isLoggedIn.toString());
 			}
 			
 			public function checkLogin():String {
 				LogUtil.debug("******************* " + isLoggedIn.toString());
 				return isLoggedIn.toString();
-				
 			}
 			
 			public function checkChat():String {
