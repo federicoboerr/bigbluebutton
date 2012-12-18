@@ -101,9 +101,9 @@
 				
 				var videoAndChatWidth:Number = 260;
 				var whiteboardWidth:Number = this.width - videoAndChatWidth;
-				var whiteboardHeight:Number = 500;
-				var videoHeight:Number = 250;
-				var chatHeight:Number = 250;
+				var whiteboardHeight:Number = 530;
+				var videoHeight:Number = 260;
+				var chatHeight:Number = 270;
 								
 				var position:String = window.getPrefferedPosition();
 				var win:MDIWindow = window as MDIWindow;
