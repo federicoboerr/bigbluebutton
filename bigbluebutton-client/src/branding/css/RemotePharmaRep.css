@@ -23,7 +23,7 @@ Application
    headerHeight: 27;
    
    backgroundAlpha: 1; 
-   backgroundColor: #E3782C;
+   backgroundColor: #fe5b02;
    
 	backgroundImage: Embed(source="assets/swf/BrushedMetal.swf", symbol="Window_Background");
 	backgroundSize: "100%";
@@ -63,7 +63,7 @@ Application
 	
    
    backgroundAlpha: 1; 
-   backgroundColor: #E3782C;
+   backgroundColor: #fe5b02;
    
 	backgroundImage: Embed(source="assets/swf/BrushedMetal.swf", symbol="Window_Background");
 	backgroundSize: "100%";
