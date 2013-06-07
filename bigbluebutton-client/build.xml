@@ -74,6 +74,7 @@
 				mxml.compatibility-version="3.0.0" 
 				swf-version="13" 
 				optimize="true">
+				<static-link-runtime-shared-libraries>${STATIC_RSL}</static-link-runtime-shared-libraries>
 			</mxmlc>
 		</sequential>
 	</target>
@@ -130,6 +131,7 @@
 				<locale>@{locale}</locale>
 				<target-player>10.3.0</target-player>
 				<source-path path-element="locale/{locale}"/>
+				<static-link-runtime-shared-libraries>${STATIC_RSL}</static-link-runtime-shared-libraries>
 				
 				<!--
 				  Look into bundles.txt to find out what resources to include here.
@@ -395,7 +397,7 @@
 
 	<target name="generate-html-wrapper">
 		<html-wrapper
-			title="BigBlueButton"
+			title="Conference"
 			file="BigBlueButton.html"
 			height="100%"
 			width="100%"
