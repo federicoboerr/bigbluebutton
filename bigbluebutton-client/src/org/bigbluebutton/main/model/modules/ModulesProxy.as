@@ -64,17 +64,13 @@ package org.bigbluebutton.main.model.modules
 		public function getPortTestApplication():String {
 			return modulesManager.portTestApplication;
 		}
-
-		public function getPortTestTimeout():Number {
-			return modulesManager.portTestTimeout;
-		}
 		
 		public function testRTMP():void{
-			portTestProxy.connect("RTMP", getPortTestHost(), "1935", getPortTestApplication(), getPortTestTimeout());
+			portTestProxy.connect("RTMP", getPortTestHost(), "1935", getPortTestApplication());
 		}
 		
 		public function testRTMPT(protocol:String):void{
-			if (protocol == "RTMP") portTestProxy.connect("RTMPT", getPortTestHost(), "", getPortTestApplication(), getPortTestTimeout());
+			if (protocol == "RTMP") portTestProxy.connect("RTMPT", getPortTestHost(), "", getPortTestApplication());
 			else modulesDispatcher.sendTunnelingFailedEvent();
 		}
 		
