@@ -101,7 +101,8 @@
 				
 				var videoAndChatWidth:Number = 260;
 				var whiteboardWidth:Number = this.width - videoAndChatWidth - 5;
-				var whiteboardHeight:Number = 502;
+				/*var whiteboardHeight:Number = 502;*/
+				var whiteboardHeight:Number = this.height;		
 				var videoHeight:Number = whiteboardHeight;
 				var chatHeight:Number = 0;
 								
