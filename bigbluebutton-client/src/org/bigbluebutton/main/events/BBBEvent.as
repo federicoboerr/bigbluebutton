@@ -33,6 +33,7 @@ package org.bigbluebutton.main.events {
 		public static const VIDEO_STARTED:String = 'BBB_VIDEO_STARTED';
 		public static const START_DESKSHARE:String = 'BBB_START_DESKSHARE';
 		public static const DESKSHARE_STARTED:String = 'BBB_DESKSHARE_STARTED';
+    /*public static const CAM_SETTINGS_CLOSED:String = "CAM_SETTINGS_CLOSED";*/
 		
 		public var message:String;
 		public var payload:Object = new Object();

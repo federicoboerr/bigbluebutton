@@ -272,6 +272,7 @@
 			}
 			
 			override public function close(event:MouseEvent=null):void{
+        LogUtil.debug("PublishWindow.close called");
 				stopPublishing();
 				super.close(event);
 			}

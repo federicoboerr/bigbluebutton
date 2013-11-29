@@ -36,6 +36,7 @@
 			import org.bigbluebutton.modules.videoconf.business.VideoProxy;
 			import org.bigbluebutton.modules.videoconf.events.CloseAllWindowsEvent;
 			import org.bigbluebutton.modules.videoconf.events.OpenPublishWindowEvent;
+      import org.bigbluebutton.modules.videoconf.events.ClosePublishWindowEvent;
 			import org.bigbluebutton.modules.videoconf.events.OpenVideoWindowEvent;
 			import org.bigbluebutton.modules.videoconf.events.StartBroadcastEvent;
 			import org.bigbluebutton.modules.videoconf.events.StopBroadcastEvent;
@@ -100,40 +101,62 @@
 			}
 			
 			private function openPublishWindow():void{
-				publishWindow = new PublishWindow();
-				publishWindow.videoOptions = proxy.videoOptions;
-				publishWindow.userId = module.userid;
-				publishWindow.userrole = module.role;
-				publishWindow.quality = module.quality;
-				publishWindow.resolutions = module.resolutions.split(",");
+        if (!_publishing) {
+  				publishWindow = new PublishWindow();
+  				publishWindow.videoOptions = proxy.videoOptions;
+  				publishWindow.userId = module.userid;
+  				publishWindow.userrole = module.role;
+  				publishWindow.quality = module.quality;
+  				publishWindow.resolutions = module.resolutions.split(",");
 				
-				var windowEvent:OpenWindowEvent = new OpenWindowEvent(OpenWindowEvent.OPEN_WINDOW_EVENT);
-				windowEvent.window = publishWindow;
-				globalDispatcher.dispatchEvent(windowEvent);
+  				var windowEvent:OpenWindowEvent = new OpenWindowEvent(OpenWindowEvent.OPEN_WINDOW_EVENT);
+  				windowEvent.window = publishWindow;
+  				globalDispatcher.dispatchEvent(windowEvent);
+        }
 			}
 			
 			private function startPublishing(e:StartBroadcastEvent):void{
-			    LogUtil.debug("Publishing stream to: " + proxy.connection.uri + "/" + e.stream);
-				proxy.startPublishing(e);
-				var broadcastEvent:BroadcastStartedEvent = new BroadcastStartedEvent();
-				broadcastEvent.stream = e.stream;
-				broadcastEvent.userid = module.userid;
-				globalDispatcher.dispatchEvent(broadcastEvent);
-				publishWindow.title = module.username + " (you)";
-				_publishing = true;
+        if (!_publishing) {
+  		    LogUtil.debug("Publishing stream to: " + proxy.connection.uri + "/" + e.stream);
+          proxy.startPublishing(e);
+  				
+  				_publishing = true;
+                    
+          var broadcastEvent:BroadcastStartedEvent = new BroadcastStartedEvent();
+  				broadcastEvent.stream = e.stream;
+  				broadcastEvent.userid = module.userid;
+  				globalDispatcher.dispatchEvent(broadcastEvent);
+          
+  				publishWindow.title = module.username + " (yo)";
+          
+      	  if (proxy.videoOptions.showButton) {
+      		  button.publishingStatus(button.START_PUBLISHING);
+      	  }
+        }
 			}
 			
 			private function stopPublishing(e:StopBroadcastEvent):void{
-				if (_publishing) {
+        LogUtil.debug("stopPublishing called");
+        
+        if (_publishing) {
 					proxy.stopBroadcasting();
 					
+          _publishing = false;
+          
 					var broadcastEvent:BroadcastStoppedEvent = new BroadcastStoppedEvent();
 					broadcastEvent.stream = publishWindow.streamName;
 					broadcastEvent.userid = module.userid;
 					globalDispatcher.dispatchEvent(broadcastEvent);
-					_publishing = false;
-				}
-				
+          
+      	  if (proxy.videoOptions.showButton) {
+      		  button.publishingStatus(button.STOP_PUBLISHING);
+      	  }
+          
+  				if (publishWindow != null) {
+  					publishWindow.close();
+  				}
+        }
+        
 				//Make toolbar button enabled again
 				button.show();
 			}
@@ -164,6 +187,16 @@
 				}
 			}
 			
+      public function handleClosePublishWindowEvent(event:ClosePublishWindowEvent):void {
+  			LogUtil.debug("Closing publish window");
+        if (_publishing) {
+          LogUtil.debug("calling stopPublishing");
+          stopPublishing(new StopBroadcastEvent());
+        }
+  			LogUtil.debug("Resetting flags for publish window.");
+  			// Reset flags to determine if we are publishing or previewing webcam.
+  			_publishing = false;
+      }
 			
 		]]>
 	</mx:Script>
@@ -171,6 +204,10 @@
 	<EventHandlers type="{OpenPublishWindowEvent.OPEN_PUBLISH_WINDOW}">
 		<InlineInvoker method="openPublishWindow" />
 	</EventHandlers>
+  
+  <EventHandlers type="{ClosePublishWindowEvent.CLOSE_PUBLISH_WINDOW}">
+    <InlineInvoker method="handleClosePublishWindowEvent" arguments="{event}"/>
+  </EventHandlers>
 	
 	<EventHandlers type="{StartBroadcastEvent.START_BROADCAST}" >
 		<InlineInvoker method="startPublishing" arguments="{event}" />
@@ -204,4 +241,7 @@
 		<InlineInvoker method="switchToViewer" />
 	</EventHandlers>
 	
+  <!-- <EventHandlers type="{BBBEvent.CAM_SETTINGS_CLOSED}">
+    <MethodInvoker generator="{VideoEventMapDelegate}" method="handleCamSettingsClosedEvent"  arguments="{event}"/>
+  </EventHandlers> -->
 </EventMap>

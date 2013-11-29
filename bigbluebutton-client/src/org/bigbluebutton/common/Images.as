@@ -20,10 +20,7 @@ package org.bigbluebutton.common
 {
 	[Bindable]
 	public class Images
-	{
-		[Embed(source="assets/images/webcam_close.png")]
-		public var webcamClose:Class;
-		
+	{		
 		[Embed(source="assets/images/deskshare_close.png")]
 		public var deskshareClose:Class;
 				
@@ -91,7 +88,13 @@ package org.bigbluebutton.common
         public var eject_user:Class;  
 
         [Embed(source="assets/images/webcam.png")]
-        public var webcam:Class;                            
+        public var webcam:Class;           
+        
+      	[Embed(source="assets/images/webcam_on.png")]
+        public var webcamOn:Class;                  
+        
+    		[Embed(source="assets/images/webcam_close.png")]
+    		public var webcamClose:Class;
         
         [Embed(source="assets/images/pencil.png")]
         public var pencil_icon:Class;  

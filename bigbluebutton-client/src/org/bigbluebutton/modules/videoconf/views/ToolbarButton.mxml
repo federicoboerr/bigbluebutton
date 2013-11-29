@@ -22,17 +22,24 @@
 
 <mx:Button xmlns:mx="http://www.adobe.com/2006/mxml" icon="{camIcon}" 
 		   xmlns:mate="http://mate.asfusion.com/"
-		   click="openPublishWindow()" creationComplete="init()" 
+		   click="openPublishWindow()" creationComplete="init()"
+		   mouseOver = "mouseOverHandler(event)"
+		   mouseOut = "mouseOutHandler(event)"
 		   toolTip="{ResourceUtil.getInstance().getString('bbb.toolbar.video.toolTip')}"
 		   visible="{isPresenter}"
 		   implements="org.bigbluebutton.common.IBbbToolbarComponent">
 	
+  <mate:Listener type="{OpenPublishWindowEvent.OPEN_PUBLISH_WINDOW}" receive="enabled=false" />
+  <!-- <mate:Listener type="{BBBEvent.CAM_SETTINGS_CLOSED}" method="handleCamSettingsClosedEvent"/> -->
+  
 	<mx:Script>
 		<![CDATA[
 			import com.asfusion.mate.events.Dispatcher;
-			
+			import org.bigbluebutton.common.LogUtil;
 			import org.bigbluebutton.common.Images;
+      /*import org.bigbluebutton.main.events.BBBEvent;*/
 			import org.bigbluebutton.main.views.MainToolbar;
+      import org.bigbluebutton.modules.videoconf.events.ClosePublishWindowEvent;
 			import org.bigbluebutton.modules.videoconf.events.OpenPublishWindowEvent;
 			import org.bigbluebutton.util.i18n.ResourceUtil;
 			
@@ -40,17 +47,61 @@
 			
 			private var images:Images = new Images();
 			[Bindable] public var camIcon:Class = images.webcam;
-			
+      
+			public const OFF_STATE:Number = 0;
+			public const ON_STATE:Number = 1;			
+			private var _currentState:Number = OFF_STATE;
+      
+			public const STOP_PUBLISHING:Number = 0;
+			public const START_PUBLISHING:Number = 1;
+      
 			private var dispatcher:Dispatcher;
 			
 			private function init():void{
 				dispatcher = new Dispatcher();
+        this.enabled = true;
+        _currentState = OFF_STATE;
+			}
+      
+			public function publishingStatus(status:Number):void {
+				if(status == START_PUBLISHING) {
+					_currentState = ON_STATE;
+					camIcon = images.webcamOn;
+					this.enabled = true;
+				}
+				else {
+					_currentState = OFF_STATE;
+					camIcon = images.webcam;
+					this.enabled = true;
+				}
 			}
 			
 			private function openPublishWindow():void{
-				dispatchEvent(new OpenPublishWindowEvent());
+        /*dispatchEvent(new OpenPublishWindowEvent());*/
+        
+				if(_currentState == ON_STATE) {
+          LogUtil.debug("Close camera");
+					//_currentState = OFF_STATE;
+					//camIcon = images.webcam;
+          dispatchEvent(new ClosePublishWindowEvent());
+				} else {
+					LogUtil.debug("Share camera");
+					_currentState = ON_STATE;
+					camIcon = images.webcamOn;
+          /*dispatchEvent(new ShareCameraRequestEvent());*/
+          dispatchEvent(new OpenPublishWindowEvent());
+				}
 			}
 			
+      /*private function handleCamSettingsClosedEvent(e:BBBEvent):void {
+        this.setFocus();
+        if(e.payload['clicked'] == "cancel"){
+          this.enabled = true;
+          _currentState = OFF_STATE;
+          camIcon = images.webcam;
+        }
+      }*/
+      
 			public function show():void{
 				this.enabled = true;
 				camIcon = images.webcam;
@@ -59,8 +110,21 @@
 			public function getAlignment():String{
 				return MainToolbar.ALIGN_LEFT;
 			}
+      
+			private function mouseOverHandler(event:MouseEvent):void {
+				if(_currentState == ON_STATE)
+					camIcon = images.webcamClose;
+				else
+					camIcon = images.webcamOn;			
+			}
+
+			private function mouseOutHandler(event:MouseEvent):void {
+				if(_currentState == ON_STATE)
+					camIcon = images.webcamOn;
+				else
+					camIcon = images.webcam;			
+			}
 		]]>
+      
 	</mx:Script>
-	
-	<mate:Listener type="{OpenPublishWindowEvent.OPEN_PUBLISH_WINDOW}" receive="enabled=false" />
 </mx:Button>
