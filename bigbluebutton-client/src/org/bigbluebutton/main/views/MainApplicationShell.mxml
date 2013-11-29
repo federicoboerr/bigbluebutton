@@ -281,7 +281,7 @@
 			private function handleLogoutComplete(e:Event):void {	
 				var request:URLRequest = new URLRequest(BBB.initUserConfigManager().getLogoutUrl());
 				LogUtil.debug("Logging out to: " + BBB.initUserConfigManager().getLogoutUrl());
-				navigateToURL(request, '_self');			
+				/*navigateToURL(request, '_self');			*/
 			}
 			
 			private function attemptReconnect(e:ConnectionFailedEvent):void{

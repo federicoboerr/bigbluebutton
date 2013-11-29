@@ -464,6 +464,8 @@
 	<target name="my" depends="clean, init-ant-contrib, generate-html-wrapper, compile-deskshare-standalone, build-bbb-main, build-bbb-main-test, build-chat, build-viewers, build-listeners, build-present, build-deskshare, build-phone, build-video, build-videodock, build-whiteboard, build-classroom-audio, build-settings, copy-resource-files" description="My own build"/>
 	
 	<target name="main" depends="init-ant-contrib, generate-html-wrapper, build-bbb-main, copy-resource-files" description="Only build main."/>
+  
+  	<target name="audio" depends="init-ant-contrib, generate-html-wrapper, build-bbb-main, build-phone, copy-resource-files" description="Only build main."/>
 	
 	<target name="chat" depends="init-ant-contrib, generate-html-wrapper, build-chat, copy-resource-files" description="Only build chat."/>
 	

@@ -40,7 +40,7 @@
 			
 			private var modules:Dictionary = new Dictionary();
 			private var numModules:int = 0;
-			private var portUpdateStr:String = 'Connecting to the server';
+			private var portUpdateStr:String = 'Conectandose al servidor';
 			private function moduleLoadingStarted(e:ModuleLoadEvent):void{
 				var list:XMLList = e.modules;
 				var item:XML;

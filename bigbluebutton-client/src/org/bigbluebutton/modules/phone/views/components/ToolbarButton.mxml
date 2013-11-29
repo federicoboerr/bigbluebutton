@@ -22,6 +22,8 @@
 
 <mx:Button xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:mate="http://mate.asfusion.com/"
 	icon="{phoneIcon}" click="startPhone()"
+	mouseOver = "mouseOverHandler(event)"
+	mouseOut = "mouseOutHandler(event)"
 	toolTip="{ResourceUtil.getInstance().getString('bbb.toolbar.phone.toolTip')}"
 	implements="org.bigbluebutton.common.IBbbToolbarComponent">
 	
@@ -44,8 +46,12 @@
 			
 			private var images:Images = new Images();
 			private var dispatcher:Dispatcher = new Dispatcher();
+      
+			public const DEFAULT_STATE:Number = 0;
+			public const ACTIVE_STATE:Number = 1;
+			private var _currentState:Number = DEFAULT_STATE;
 			 
-			[Bindable] public var phoneIcon:Class = images.headset_icon;
+			[Bindable] public var phoneIcon:Class = images.headsetDefaultIcon;
 			
 			private function startPhone():void {
 				// Disable the button right away to prevent the user from clicking
@@ -60,7 +66,7 @@
 						phoneOptions.autoJoin = (vxml.@autoJoin.toString().toUpperCase() == "TRUE") ? true : false;
 						phoneOptions.skipCheck = (vxml.@skipCheck.toString().toUpperCase() == "TRUE") ? true : false;
 					}
-					phoneIcon = images.headsetClose;
+					phoneIcon = images.headsetActiveIcon;
 					if (phoneOptions.skipCheck || noMicrophone()) {
 						
 						/*
@@ -75,7 +81,7 @@
 						dispatcher.dispatchEvent(new BBBEvent("SHOW_MIC_SETTINGS"));
 					}
 				} else {
-					phoneIcon = images.headset_icon;
+					phoneIcon = images.headsetDefaultIcon;
 					var leaveEvent:BBBEvent = new BBBEvent("LEAVE_VOICE_CONFERENCE_EVENT");
 					leaveEvent.payload["userRequested"] = true;
 					dispatcher.dispatchEvent(leaveEvent);
@@ -84,9 +90,11 @@
 			
 			public function userJoinedConference(joined: Boolean):void {
 				if (joined) {
-					phoneIcon = images.headsetClose;
+          _currentState = ACTIVE_STATE;
+					phoneIcon = images.headsetActiveIcon;
 				} else {
-					phoneIcon = images.headset_icon;
+          _currentState = DEFAULT_STATE;
+					phoneIcon = images.headsetDefaultIcon;
 				}
 			}
 			
@@ -102,11 +110,11 @@
 			private function handleMicSettingsClosedEvent(event:BBBEvent):void {
 				this.selected = false;
 				this.enabled = true;
-				phoneIcon = images.headset_icon;
+				phoneIcon = images.headsetDefaultIcon;
 			}
 			
 			private function handleBBBJoinConferenceEvent(event:BBBEvent):void {
-				phoneIcon = images.headsetClose;
+				phoneIcon = images.headsetActiveIcon;
 				var joinEvent:BBBEvent = new BBBEvent("JOIN_VOICE_CONFERENCE_EVENT");
 				joinEvent.payload['useMicrophone'] = false;
 				dispatcher.dispatchEvent(joinEvent);
@@ -119,6 +127,20 @@
 			
 			public function getAlignment():String{
 				return MainToolbar.ALIGN_LEFT;
+			}
+      
+			private function mouseOverHandler(event:MouseEvent):void {
+				if(_currentState == ACTIVE_STATE)
+					phoneIcon = images.headsetInactiveIcon;
+				else
+					phoneIcon = images.headsetActiveIcon;			
+			}
+
+			private function mouseOutHandler(event:MouseEvent):void {
+				if(_currentState == ACTIVE_STATE)
+					phoneIcon = images.headsetActiveIcon;
+				else
+					phoneIcon = images.headsetDefaultIcon;			
 			}
 		]]>
 	</mx:Script>

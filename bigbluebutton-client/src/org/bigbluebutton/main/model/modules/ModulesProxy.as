@@ -70,7 +70,7 @@ package org.bigbluebutton.main.model.modules
 		}
 		
 		public function testRTMPT(protocol:String):void{
-			if (protocol == "RTMP") portTestProxy.connect("RTMPS", getPortTestHost(), "443", getPortTestApplication());
+			if (protocol != "RTMPS") portTestProxy.connect("RTMPS", getPortTestHost(), "443", getPortTestApplication());
 			else modulesDispatcher.sendTunnelingFailedEvent();
 		}
 		
