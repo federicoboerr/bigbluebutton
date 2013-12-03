@@ -92,7 +92,8 @@
 			
 			public function addToolbarButton():void{
 				if (proxy.videoOptions.showButton) {
-					button = new ToolbarButton();	  
+					button = new ToolbarButton();
+          button.toggle = true;	  
 					button.isPresenter = !module.presenterShareOnly;
 					var event:ToolbarButtonEvent = new ToolbarButtonEvent(ToolbarButtonEvent.ADD);
 					event.button = button;
@@ -148,14 +149,14 @@
 					broadcastEvent.userid = module.userid;
 					globalDispatcher.dispatchEvent(broadcastEvent);
           
-      	  if (proxy.videoOptions.showButton) {
-      		  button.publishingStatus(button.STOP_PUBLISHING);
-      	  }
-          
   				if (publishWindow != null) {
   					publishWindow.close();
   				}
         }
+        
+    	  if (proxy.videoOptions.showButton) {
+    		  button.publishingStatus(button.STOP_PUBLISHING);
+    	  }
         
 				//Make toolbar button enabled again
 				button.show();
@@ -188,14 +189,14 @@
 			}
 			
       public function handleClosePublishWindowEvent(event:ClosePublishWindowEvent):void {
-  			LogUtil.debug("Closing publish window");
+        LogUtil.debug("Closing publish window");
         if (_publishing) {
           LogUtil.debug("calling stopPublishing");
           stopPublishing(new StopBroadcastEvent());
         }
-  			LogUtil.debug("Resetting flags for publish window.");
-  			// Reset flags to determine if we are publishing or previewing webcam.
-  			_publishing = false;
+        LogUtil.debug("Resetting flags for publish window.");
+        // Reset flags to determine if we are publishing or previewing webcam.
+        _publishing = false;
       }
 			
 		]]>
@@ -240,8 +241,4 @@
 	<EventHandlers type="{MadePresenterEvent.SWITCH_TO_VIEWER_MODE}">
 		<InlineInvoker method="switchToViewer" />
 	</EventHandlers>
-	
-  <!-- <EventHandlers type="{BBBEvent.CAM_SETTINGS_CLOSED}">
-    <MethodInvoker generator="{VideoEventMapDelegate}" method="handleCamSettingsClosedEvent"  arguments="{event}"/>
-  </EventHandlers> -->
 </EventMap>

@@ -20,27 +20,25 @@
   $Id: $
 --> 
 
-<mx:Button xmlns:mx="http://www.adobe.com/2006/mxml" icon="{camIcon}" 
-		   xmlns:mate="http://mate.asfusion.com/"
-		   click="openPublishWindow()" creationComplete="init()"
-		   mouseOver = "mouseOverHandler(event)"
-		   mouseOut = "mouseOutHandler(event)"
-		   toolTip="{ResourceUtil.getInstance().getString('bbb.toolbar.video.toolTip')}"
-		   visible="{isPresenter}"
-		   implements="org.bigbluebutton.common.IBbbToolbarComponent">
+<mx:Button xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:mate="http://mate.asfusion.com/"
+           icon="{camIcon}" click="openPublishWindow()" creationComplete="init()"
+    		   mouseOver = "mouseOverHandler(event)"
+    		   mouseOut = "mouseOutHandler(event)"
+    		   toolTip="{ResourceUtil.getInstance().getString('bbb.toolbar.video.toolTip')}"
+    		   visible="{isPresenter}"
+    		   implements="org.bigbluebutton.common.IBbbToolbarComponent">
 	
   <mate:Listener type="{OpenPublishWindowEvent.OPEN_PUBLISH_WINDOW}" receive="enabled=false" />
-  <!-- <mate:Listener type="{BBBEvent.CAM_SETTINGS_CLOSED}" method="handleCamSettingsClosedEvent"/> -->
   
 	<mx:Script>
 		<![CDATA[
 			import com.asfusion.mate.events.Dispatcher;
 			import org.bigbluebutton.common.LogUtil;
 			import org.bigbluebutton.common.Images;
-      /*import org.bigbluebutton.main.events.BBBEvent;*/
 			import org.bigbluebutton.main.views.MainToolbar;
       import org.bigbluebutton.modules.videoconf.events.ClosePublishWindowEvent;
 			import org.bigbluebutton.modules.videoconf.events.OpenPublishWindowEvent;
+      import org.bigbluebutton.main.events.BBBEvent;
 			import org.bigbluebutton.util.i18n.ResourceUtil;
 			
 			[Bindable] public var isPresenter:Boolean;
@@ -60,19 +58,24 @@
 			private function init():void{
 				dispatcher = new Dispatcher();
         this.enabled = true;
+        this.selected = false;
         _currentState = OFF_STATE;
 			}
       
 			public function publishingStatus(status:Number):void {
 				if(status == START_PUBLISHING) {
+          LogUtil.debug("publishingStatus: START_PUBLISHING");
 					_currentState = ON_STATE;
 					camIcon = images.webcamOn;
 					this.enabled = true;
+          this.selected = true;
 				}
 				else {
+          LogUtil.debug("publishingStatus: STOP_PUBLISHING");
 					_currentState = OFF_STATE;
 					camIcon = images.webcam;
 					this.enabled = true;
+          this.selected = false;
 				}
 			}
 			
@@ -81,27 +84,21 @@
         
 				if(_currentState == ON_STATE) {
           LogUtil.debug("Close camera");
-					//_currentState = OFF_STATE;
-					//camIcon = images.webcam;
+          /*_currentState = OFF_STATE;
+          camIcon = images.webcam;
+          this.selected = false;*/
+          
           dispatchEvent(new ClosePublishWindowEvent());
 				} else {
-					LogUtil.debug("Share camera");
-					_currentState = ON_STATE;
-					camIcon = images.webcamOn;
-          /*dispatchEvent(new ShareCameraRequestEvent());*/
+					LogUtil.debug("Open publish window");
+          /*_currentState = ON_STATE;*/
+          /*camIcon = images.webcamOn;*/
+          /*this.selected = true;*/
+          
           dispatchEvent(new OpenPublishWindowEvent());
 				}
 			}
 			
-      /*private function handleCamSettingsClosedEvent(e:BBBEvent):void {
-        this.setFocus();
-        if(e.payload['clicked'] == "cancel"){
-          this.enabled = true;
-          _currentState = OFF_STATE;
-          camIcon = images.webcam;
-        }
-      }*/
-      
 			public function show():void{
 				this.enabled = true;
 				camIcon = images.webcam;

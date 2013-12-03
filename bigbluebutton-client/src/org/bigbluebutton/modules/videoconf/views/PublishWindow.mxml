@@ -268,7 +268,7 @@
 				// this event will dock the window, if it's enabled
 				var openVideoEvent:OpenVideoWindowEvent = new OpenVideoWindowEvent();
 				openVideoEvent.window = this;
-				dispatchEvent(openVideoEvent);					
+				dispatchEvent(openVideoEvent);
 			}
 			
 			override public function close(event:MouseEvent=null):void{

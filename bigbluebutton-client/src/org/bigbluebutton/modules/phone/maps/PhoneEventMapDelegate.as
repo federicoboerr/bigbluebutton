@@ -46,7 +46,7 @@ package org.bigbluebutton.modules.phone.maps
 		}
 
 		public function addToolbarButton():void {
-		   	phoneButton.toggle = true;
+         phoneButton.toggle = true;
 		   	
 		   	if (phoneOptions.showButton) {
 			   	// Use the GLobal Dispatcher so that this message will be heard by the
@@ -70,13 +70,13 @@ package org.bigbluebutton.modules.phone.maps
 		}
 		
 		public function disableToolbarButton():void {
-			phoneButton.selected = true;
+      phoneButton.selected = true;
 			phoneButton.enabled = true;
 			phoneButton.userJoinedConference(true);
 		}
 		
 		public function enableToolbarButton():void {
-			phoneButton.selected = false;
+      phoneButton.selected = false;
 			phoneButton.enabled = true;
 			phoneButton.userJoinedConference(false);
 		}
