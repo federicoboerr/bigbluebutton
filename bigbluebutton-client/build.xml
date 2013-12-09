@@ -467,6 +467,4 @@
   
   	<target name="video" depends="init-ant-contrib, generate-html-wrapper, build-bbb-main, build-video, copy-resource-files" description="custom build."/>
 	
-	<target name="chat" depends="init-ant-contrib, generate-html-wrapper, build-chat, copy-resource-files" description="Only build chat."/>
-	
 </project>
